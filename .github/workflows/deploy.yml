@@ -61,12 +61,10 @@ jobs:
         run: npm run lint
         working-directory: ./frontend
 
-      - name: Debug before build
+      - name: Verify source files
         run: |
-          echo "About to build..."
-          ls -la src/lib/
-          echo "Theme file exists:"
-          ls -la src/lib/theme.tsx || echo "Theme file not found!"
+          echo "Verifying critical source files exist..."
+          ls -la src/lib/theme.tsx src/lib/api.ts src/lib/utils.ts
         working-directory: ./frontend
 
       - name: Build with Vite
