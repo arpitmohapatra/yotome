@@ -12,7 +12,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+    extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],
   },
   server: {
     port: 5173,
@@ -29,6 +29,17 @@ export default defineConfig({
     sourcemap: true,
     // Ensure assets are properly referenced with base path
     assetsDir: 'assets',
+    // Better compatibility for CI environments
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+    // Ensure consistent builds across environments
+    target: 'es2020',
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
   },
   define: {
     'import.meta.env.VITE_API_BASE_URL': JSON.stringify(
