@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider } from './lib/theme.tsx'
+import { ThemeProvider } from './lib/theme'
 import { Layout, ErrorBoundary } from './components/Layout'
 import { AssistantPage } from './pages/AssistantPage'
 import { AdminPage } from './pages/AdminPage'

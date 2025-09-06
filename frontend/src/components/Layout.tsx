@@ -2,7 +2,7 @@ import React from 'react'
 import { Bot, FileText, Moon, Sun, BookOpenCheck } from 'lucide-react'
 import { Button } from './ui/button'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs'
-import { useThemeContext } from '../lib/theme.tsx'
+import { useThemeContext } from '../lib/theme'
 import { cn } from '../lib/utils'
 
 interface LayoutProps {
