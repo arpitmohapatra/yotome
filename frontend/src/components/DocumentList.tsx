@@ -5,7 +5,8 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { LoadingSpinner } from './Layout'
 import { api, handleApiError, DocumentInfo } from '../lib/api'
-import { cn, formatFileSize, formatDate, getMimeTypeIcon, debounce } from '../lib/utils'
+// import { cn, formatFileSize, formatDate, getMimeTypeIcon, debounce } from '../lib/utils'
+import { formatFileSize, formatDate, getMimeTypeIcon, debounce } from '../lib/utils'
 
 interface DocumentListProps {
   refreshTrigger?: number

@@ -90,7 +90,7 @@ export function Chat({ className }: ChatProps) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit(e as any)
+      handleSubmit(e as React.KeyboardEvent<HTMLTextAreaElement>)
     }
   }
 
