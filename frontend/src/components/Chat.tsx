@@ -173,7 +173,7 @@ export function Chat({ className }: ChatProps) {
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs"
+                  className="text-xs hover:bg-primary/10 hover:border-primary/50 dark:border-border/80 dark:bg-card/40 dark:hover:bg-primary/20 dark:hover:border-primary/60 transition-all duration-200"
                   onClick={() => setInput(suggestion)}
                 >
                   {suggestion}
@@ -265,12 +265,12 @@ function MessageBubble({
 
   return (
     <div className={cn(
-      'flex items-start space-x-3 message-enter',
+      'flex items-start space-x-3 message-enter group',
       isUser ? 'flex-row-reverse space-x-reverse' : ''
     )}>
       {/* Avatar */}
       <div className={cn(
-        'flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0',
+        'flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 mt-1',
         isUser ? 'bg-secondary' : 'bg-primary'
       )}>
         {isUser ? (
@@ -281,12 +281,18 @@ function MessageBubble({
       </div>
 
       {/* Message Content */}
-      <div className={cn('flex-1 space-y-2', isUser ? 'max-w-[80%]' : '')}>
+      <div className={cn(
+        'flex flex-col space-y-2 min-w-0',
+        isUser ? 'max-w-[80%] items-end' : 'max-w-[85%] items-start'
+      )}>
         <Card className={cn(
-          isUser ? 'bg-primary text-primary-foreground' : 'bg-card/50'
+          'w-fit min-w-[60px] max-w-full shadow-sm py-0',
+          isUser 
+            ? 'bg-primary text-primary-foreground border-primary/20' 
+            : 'bg-card/80 backdrop-blur-sm border-border/60 dark:border-border/80 dark:bg-card/60'
         )}>
-          <CardContent className="p-4">
-            <div className="prose prose-sm dark:prose-invert max-w-none">
+          <CardContent className="px-3 py-1.5">
+            <div className="text-sm leading-relaxed">
               <MessageContent content={message.content} />
             </div>
           </CardContent>
@@ -348,7 +354,7 @@ function MessageContent({ content }: { content: string }) {
     })
   }
 
-  return <div className="whitespace-pre-wrap">{renderContent(content)}</div>
+  return <div className="whitespace-pre-wrap break-words min-h-fit">{renderContent(content)}</div>
 }
 
 // Sources Accordion Component
