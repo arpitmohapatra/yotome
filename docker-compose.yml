@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: yotome-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT:-gpt-4o-mini}
+      - AZURE_OPENAI_EMBED_DEPLOYMENT=${AZURE_OPENAI_EMBED_DEPLOYMENT:-text-embedding-3-large}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION:-2024-10-21}
+      - CHROMA_DIR=/app/data/chroma
+      - MAX_TOKENS=${MAX_TOKENS:-1024}
+      - TEMPERATURE=${TEMPERATURE:-0.2}
+      - TOP_K=${TOP_K:-6}
+      - CHUNK_SIZE=${CHUNK_SIZE:-800}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-100}
+      - ALLOWED_MIME=${ALLOWED_MIME:-application/pdf,text/plain,text/markdown,text/html,application/vnd.openxmlformats-officedocument.wordprocessingml.document}
+      - MAX_FILE_SIZE=${MAX_FILE_SIZE:-50000000}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - FRONTEND_URL=http://localhost:3000
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production}
+    volumes:
+      - chroma_data:/app/data/chroma
+      - ./backend:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/healthz')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: yotome-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+    driver: local
+
+networks:
+  default:
+    name: yotome-network
